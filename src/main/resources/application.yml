@@ -1,0 +1,65 @@
+# ============================================================
+# 乡镇防汛资源调度管理系统 - Spring Boot 配置
+# ============================================================
+
+server:
+  port: 8080
+
+spring:
+  # MySQL 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/flood_prevention?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+
+  # Redis 配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+
+  # Jackson 日期格式化
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+# MyBatis-Plus 配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.flood.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# JWT 配置
+jwt:
+  # 密钥,生产环境请更换
+  secret: floodPreventionSystem2026SecretKey
+  # Token有效期(毫秒) - 24小时
+  expiration: 86400000
+  # Token请求头名称
+  header: Authorization
+  # Token前缀
+  token-prefix: 'Bearer '
+
+# 日志级别
+logging:
+  level:
+    root: info
+    com.flood: debug
+    org.springframework.security: info

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flood.mapper.DispatchPlanMapper">
+
+    <!-- 查询调度列表（关联物资和队伍名称） -->
+    <select id="selectDispatchListWithDetail" resultType="com.flood.entity.DispatchPlan">
+        SELECT dp.*,
+               m.material_name AS materialName,
+               et.team_name    AS teamName
+        FROM biz_dispatch_plan dp
+        LEFT JOIN biz_material m      ON dp.material_id = m.id
+        LEFT JOIN biz_emergency_team et ON dp.team_id = et.id
+        ORDER BY dp.create_time DESC
+    </select>
+
+</mapper>

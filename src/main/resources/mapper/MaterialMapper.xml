@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flood.mapper.MaterialMapper">
+
+    <!-- 查询库存低于预警值的物资 -->
+    <select id="selectLowStockMaterials" resultType="com.flood.entity.Material">
+        SELECT *
+        FROM biz_material
+        WHERE quantity &lt; warning_value
+          AND status = 1
+        ORDER BY (warning_value - quantity) DESC
+    </select>
+
+</mapper>

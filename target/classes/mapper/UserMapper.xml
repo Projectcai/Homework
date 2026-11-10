@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flood.mapper.UserMapper">
+
+    <!-- 根据用户名查询用户 -->
+    <select id="selectByUsername" resultType="com.flood.entity.User">
+        SELECT u.*,
+               r.role_name AS roleName,
+               r.role_code AS roleCode
+        FROM sys_user u
+        LEFT JOIN sys_role r ON u.role_id = r.id
+        WHERE u.username = #{username}
+    </select>
+
+    <!-- 根据用户ID查询权限列表 -->
+    <select id="selectPermissionsByUserId" resultType="com.flood.entity.Permission">
+        SELECT p.*
+        FROM sys_permission p
+        INNER JOIN sys_role_permission rp ON p.id = rp.permission_id
+        INNER JOIN sys_user u ON u.role_id = rp.role_id
+        WHERE u.id = #{userId}
+        ORDER BY p.sort
+    </select>
+
+</mapper>
